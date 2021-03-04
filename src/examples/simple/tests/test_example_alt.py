@@ -1,5 +1,5 @@
 from unittest import TestCase
-from . import example as e
+from .. import example as e
 
 class MyTest(TestCase):
     

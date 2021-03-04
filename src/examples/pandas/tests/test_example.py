@@ -1,9 +1,9 @@
-from . import example as e
+from .. import example as e
 from unittest.mock import patch
 import pandas as pd
 import numpy as np
 
-@patch(__package__ + ".example.load_data", return_value=pd.DataFrame({
+@patch("examples.pandas.example.load_data", return_value=pd.DataFrame({
     "contractor_id": [1, 1, 1, 2, 2, 2],
     "name": ["David", "David", "David", "Maria", "Maria", "Maria"],
     "maturity_date": ["2020-01-01", "2020-02-01","2020-03-01", "2020-01-01", "2020-02-01","2020-03-01"],
@@ -21,7 +21,7 @@ def test_get_contracts(load_data_mock):
     )
     
 
-@patch(__package__ + ".example.load_data", return_value=pd.DataFrame({
+@patch("examples.pandas.example.load_data", return_value=pd.DataFrame({
     "contractor_id": [1, 1, 1, 2, 2, 2],
     "name": ["David", "David", "David", "Maria", "Maria", "Maria"],
     "maturity_date": ["2020-01-01", "2020-02-01","2020-03-01", "2020-01-01", "2020-02-01","2020-03-01"],

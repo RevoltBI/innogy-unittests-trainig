@@ -1,8 +1,8 @@
-from . import example as e
+from .. import example as e
 from unittest.mock import MagicMock, patch, ANY
 import datetime
 
-@patch(__package__ + ".example.pd")
+@patch("examples.patch.example.pd")
 def test_store_contractors(pd_mock):
     contractors_mock = MagicMock()
     pd_mock.read_sql_query = MagicMock(return_value=contractors_mock)

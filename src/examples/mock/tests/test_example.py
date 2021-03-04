@@ -1,4 +1,4 @@
-from . import example as e
+from .. import example as e
 from unittest.mock import MagicMock, call, ANY
 import pytest
 import datetime

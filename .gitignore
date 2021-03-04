@@ -3,3 +3,4 @@ htmlcov
 .ipynb_checkpoints
 venv
 xxx
+.idea

@@ -1,4 +1,4 @@
-from . import example as e
+from .. import example as e
 
 def test_add_number_if_odd():
     assert e.add_number_if_odd(1, 2) == 1
