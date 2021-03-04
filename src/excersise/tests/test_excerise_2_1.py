@@ -1,5 +1,5 @@
 import pytest
-from . import excersise_2 as e
+from .. import excersise_2 as e
 
 def test_prepare_dates_dates_missing():
     with pytest.raises(ValueError) as exc_info:

@@ -1,10 +1,20 @@
 """
 Refactor method in such way that is easy to unit test and implement adequate unit test. 
 """
+import datetime
 import re
+import tempfile
+import os
+from ftplib import FTP
+
 import mysql.connector
-import matplotlib 
 import pandas as pd
+
+from .stats_counter import Stats
+
+FTP_USERNAME = "test"
+FTP_PASSWORD = "ninja"
+FTP_HOST = "ftp.host.com"
 
 def prepare_print_daily_logs_statistics(dates, host, username, password):
     """
@@ -44,7 +54,7 @@ def prepare_print_daily_logs_statistics(dates, host, username, password):
         
         frame = pd.read_sql_query( 
             f"SELECT timestamp, message, severity, line_no, file FROM log_daily_{date.replace('-', '_')}", conn) # Table name example log_daily_2
-        
+        Stats().process(frame)
         frames.append(frame)
         
     
@@ -53,4 +63,16 @@ def prepare_print_daily_logs_statistics(dates, host, username, password):
     grouped = merged[["severity", "file", "message"]].groupby(["severity", "log_line"]).agg(["count"])
     
     grouped.unstack("severity").plot.bar(stacked=True)
+    
+    ftp = FTP(FTP_HOST)
+    ftp.login(FTP_USERNAME, FTP_PASSWORD)
+    tmp_file = tempfile.mktemp()
+    try:
+        merged.to_csv(tmp_file)
+        with open(tmp_file, "r") as fp:
+            ftp.storbinary(f"STOR log_run_{datetime.datetime.now().strftime('%Y-%m-%d')}.csv", fp)
+    finally:
+        os.remove(tmp_file)
+        ftp.quit()
+
     
