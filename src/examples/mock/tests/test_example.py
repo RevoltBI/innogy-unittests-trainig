@@ -13,6 +13,7 @@ def test_store_df_empty_value():
     
     
     assert str(excinfo.value) == "Since must not be empty"
+    df_contractor_mock.to_sql.assert_not_called()
     
     
 def test_store_df_correct():
@@ -25,7 +26,8 @@ def test_store_df_correct():
     
     
     assert new_table_name == expected_new_table_name
-    df_contractor_mock.to_sql(expected_new_table_name, conn_mock, if_exists="replace")
+    df_contractor_mock.to_sql.assert_called_once_with(expected_new_table_name, conn_mock, if_exists="replace")
+    
     
     
 def test_store_df_per_date():
@@ -36,7 +38,16 @@ def test_store_df_per_date():
         "amount": [100, 200, 300, 200, 300, 400]
     })
     
-    store_function = MagicMock(side_effect=[True, False, True])
+    counter = 0
+    def side_effect_implementation(*args):
+        nonlocal counter
+        result = True if counter != 1 else False
+        
+        counter += 1
+        
+        return result
+    
+    store_function = MagicMock(side_effect=side_effect_implementation)
     
     assert e.store_df_per_date(df, store_function) == [True, False, True]
     
@@ -52,6 +63,8 @@ def test_store_df_per_date_exception_thrown():
     
     with pytest.raises(ValueError):
         e.store_df_per_date(df, store_function)
+        
+    
     
     
 def test_store_df_per_date_exception_thrown_second_call():
