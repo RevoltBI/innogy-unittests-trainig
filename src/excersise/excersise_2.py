@@ -39,6 +39,8 @@ def prepare_dates(dates):
 
     if isinstance(dates, str):
         dates = [dates]
+        
+        
 
     return dates
 

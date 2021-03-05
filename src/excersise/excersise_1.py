@@ -26,7 +26,7 @@ def prepare_print_daily_logs_statistics(dates, host, username, password):
     :param username: database username
     :param password: string
     """
-    if dates is None:
+    if dates is None and validate_date_format(dates):
         raise ValueError("Dates must not be empty")
         
     if not isinstance(dates, list) and not isinstance(dates, str):
