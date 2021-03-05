@@ -58,7 +58,7 @@ class Stats(metaclass=Singleton):
         result = 0
         if list_df is not None and len(list_df) > 0:
             for list in list_df:
-                result += 1 if self.process(df) else 0
+                result += 1 if self.process(list) else 0
 
         return result
 
