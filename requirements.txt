@@ -1,3 +1,4 @@
 pandas
 matplotlib
 mysql-connector-python
+sortedcontainers
